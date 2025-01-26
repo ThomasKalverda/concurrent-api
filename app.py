@@ -14,10 +14,15 @@ executor = ThreadPoolExecutor()
 def add_data():
     global data_store
     input_data = request.json.get("data", [])
-    if not isinstance(input_data, list) or not all(
-        isinstance(i, int) for i in input_data
+
+    # Validate input, ensure it is a list of integers
+    if (
+        not input_data
+        or not isinstance(input_data, list)
+        or not all(isinstance(i, int) for i in input_data)
     ):
         return jsonify({"error": "Invalid input, provide a list of integers."}), 400
+
     data_store = input_data
     return jsonify({"message": "Data stored successfully"}), 200
 
