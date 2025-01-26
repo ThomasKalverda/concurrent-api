@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from concurrent.futures import ThreadPoolExecutor
+from heapq import nlargest
 
 app = Flask(__name__)
 
@@ -28,7 +29,7 @@ def sort_data():
 
 # Concurrent task for finding top-n numbers
 def find_top_n(n):
-    return sorted(data_store, reverse=True)[:n]
+    return nlargest(n, data_store)
 
 
 # Concurrent task for calculating mean
