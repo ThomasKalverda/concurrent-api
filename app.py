@@ -76,5 +76,15 @@ def get_mean():
     return jsonify({"mean": mean}), 200
 
 
+# Test utils
+def get_data_store():
+    return data_store
+
+
+def reset_data_store():
+    global data_store
+    data_store = []
+
+
 if __name__ == "__main__":
     app.run(debug=True)
