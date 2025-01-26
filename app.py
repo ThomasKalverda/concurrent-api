@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from concurrent.futures import ThreadPoolExecutor
 from heapq import nlargest
+from werkzeug.exceptions import BadRequest
 
 app = Flask(__name__)
 
@@ -13,7 +14,10 @@ executor = ThreadPoolExecutor()
 @app.route("/data", methods=["POST"])
 def add_data():
     global data_store
-    input_data = request.json.get("data", [])
+    try:
+        input_data = request.json.get("data", [])
+    except BadRequest as e:
+        return jsonify({"error": f"Invalid JSON payload: {str(e)}"}), 400
 
     # Validate input, ensure it is a list of integers
     if (
